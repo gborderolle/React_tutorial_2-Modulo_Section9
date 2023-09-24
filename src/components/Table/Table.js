@@ -1,6 +1,15 @@
-export default function Button(props) {
+import classes from './Table.module.css'
+
+const formatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+})
+
+export default function Table(props) {
   return (
-    <table className='result'>
+    <table className={classes.result}>
       <thead>
         <tr>
           <th>Year</th>
@@ -12,18 +21,18 @@ export default function Button(props) {
       </thead>
       <tbody>
         {props.data.map((yearData) => (
-          <tr>
+          <tr key={yearData.year}>
             <td>{yearData.year}</td>
-            <td>{yearData.savingsEndOfYear}</td>
-            <td>{yearData.yearlyInterest}</td>
+            <td>{formatter.format(yearData.savingsEndOfYear)}</td>
+            <td>{formatter.format(yearData.yearlyInterest)}</td>
             <td>
-              {yearData.savingsEndOfYear -
+              {formatter.format(yearData.savingsEndOfYear -
                 props.currentSavings -
-                yearData.yearlyContribution * yearData.year}
+                yearData.yearlyContribution * yearData.year)}
             </td>
             <td>
-              {props.currentSavings +
-                yearData.yearlyContribution * yearData.year}
+              {formatter.format(props.currentSavings +
+                yearData.yearlyContribution * yearData.year)}
             </td>
           </tr>
         ))}

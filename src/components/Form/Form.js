@@ -2,6 +2,8 @@ import Card from '../Form/Card';
 import Button from '../Form/Button';
 import { useState } from 'react';
 
+import classes from './Form.module.css'
+
 export default function Form(props) {
   const initialUserInput = {
     'current-savings': 10000,
@@ -18,7 +20,8 @@ export default function Form(props) {
     setUserInputs((prevInputs) => {
       return {
         ...prevInputs,
-        [input]: value, // guarda el value en el ítem "input"
+        [input]: +value, // guarda el value en el ítem "input"
+        // + convierte string a number
       };
     }); // prevInputs: valores anteriores
   };
@@ -29,19 +32,12 @@ export default function Form(props) {
 
   const submitHandler = (userInput) => {
     userInput.preventDefault(); // Evita enviar el request y el reload del form
-
     props.onCalculate(userInputs);
-
-  
-    
-
-    // do something with yearlyData ...
-
   };
 
   return (
-    <form className={props.class} onSubmit={submitHandler}>
-      <div className='input-group'>
+    <form className={classes.form} onSubmit={submitHandler}>
+      <div className={classes['input-group']}>
         <Card
           inputId='current-savings'
           inputType='number'
@@ -61,7 +57,7 @@ export default function Form(props) {
           value={userInputs['yearly-contribution']} // setea los valores iniciales
         />
       </div>
-      <div className='input-group'>
+      <div className={classes['input-group']}>
         <Card
           inputId='expected-return'
           inputType='number'
@@ -79,14 +75,14 @@ export default function Form(props) {
           value={userInputs['duration']} // setea los valores iniciales
         />
       </div>
-      <p className='actions'>
+      <p className={classes.actions}>
         <Button
           type='button'
-          class='buttonAlt'
+          class={classes.buttonAlt}
           text='Reset'
           event={resetHandler}
         />
-        <Button type='submit' class='button' text='Calculate' />
+        <Button type='submit' class={classes.button} text='Calculate' />
       </p>
     </form>
   );
